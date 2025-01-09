@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 export function LogIn() {
@@ -25,6 +26,16 @@ export function LogIn() {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const testRequest = async () => {
+      axios.get('/api').then((res) => {
+        console.log(res.data.test);
+      });
+    };
+    testRequest();
+  };
+
   return (
     <div>
       <form
@@ -33,6 +44,7 @@ export function LogIn() {
           flexDirection: 'column',
           alignItems: 'center',
         }}
+        onSubmit={handleSubmit}
       >
         <input
           id="username"
