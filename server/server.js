@@ -1,21 +1,20 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
+import { sequelize } from './database.js';
 
 const app = express();
+app.use(morgan('tiny'));
 app.use(
   cors({
     origin: '*',
   })
 );
 
-app.use('/', (req, res) => {
-  res.send({ test: 'hi' });
-});
-
-app.get('/api', (req, res) => {
-  res.send({ test: 'hi' });
-});
-
-app.listen(5000, () => {
-  console.log('server is running on 5000!');
+// Connect to database
+sequelize.sync().then(() => {
+  // Connect to server
+  app.listen(process.env.HOST_PORT || 5000, () => {
+    console.log(`server is running on ${process.env.HOST_PORT || 5000}!`);
+  });
 });
